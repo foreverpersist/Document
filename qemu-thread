@@ -1,0 +1,18 @@
+#Author: persist
+#Abstract: qemu thread
+
+qemu threads:
+	thread name	location	parent	work
+	main		vl.c		null	dispatch events in a loog
+	call_rcu	util/rcu.c	main	unknown ...
+	worker		thread-pool.c	main	deal with io request
+	CPU N/KVM	cpus.c		main	wait for io events in a loop
+
+virtio-blk:
+	resolve and dispatch io request in main thread
+
+dataplane:
+	It create dataplane thread based on iothread.c? I can not run it, so I am not sure how it works.
+
+plan:
+	create threads like CPU N/KVM thread to wait specific events dispatched by main thread

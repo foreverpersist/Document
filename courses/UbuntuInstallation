@@ -1,0 +1,21 @@
+#Author: persist
+#Abstract: record the softwares that have been installed in the computer
+
+fish		a great bash tool
+python-pip	a python tool
+shadowsockes	a http proxy tool
+vim		a great text edition tool
+expect		a tool which can allow you to write scripts which can be run without inputting password by hand
+jdk1.8		java develop kit
+mentohust	a wired school client
+rjsupplicant	a wired school client (better than mentohust)
+google-chrome	google web browser
+curl		a network tool for downloading or test http requests
+squashfs-tools	[mksquashfs] a tool which can convert *.img to *.sfs
+dumpet		a tool which can extract the information inside iso images
+tree		a tool to view the structure of a directory
+automake	a compile tool
+libtool		a tool whose usage is unknown by me
+virtualbox	an opensource hypervisor platform tool
+qemu-system-x86	an opensource hypervisor platform tool
+netease-cloud-music a great music software

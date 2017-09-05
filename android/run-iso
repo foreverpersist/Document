@@ -1,0 +1,8 @@
+#Author: persist
+#Abstarct: solve the problem that android x86 can not starts graphical desktop on qemu
+
+1. try the iso image again on other hypervisor platforms to make sure the image is ok, such as virtuabox.
+
+2. run qemu with option '-vga std' to try again.
+
+Note: vga is a universal display dirver which can support most graphics cards.

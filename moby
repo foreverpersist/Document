@@ -1,0 +1,36 @@
+#Author: persist
+
+moby build process
+
+1 cmd/main.go: main
+	Firstly, check arguments.
+        Then, create moby config directory and tmp directory.
+	Finally, invoke the function named 'build' at cmd/moby.go.
+
+1.1 cmd/moby.go: build
+	Firstly, parse arguments and set variables for building the image, such as 'buildName', 'buildOutputFile' and etc.
+	Then, read yaml file from stdin, remote http server or local file to setmoby config.
+	And, invoke function named `moby.Build` at src/moby/build.go.
+	Finally, invoke the function named `Outputs` at src/moby/outpu.go to generate all the specified output format if needed.
+
+1.1.1 src/moby/build.go: Build
+	Firstly, allocate each container a uid.
+	Then, extract kernel image and tarball by invoking the funcation named 'ImageTar'.
+	Next, extract init container tarball by invoking the function named 'ImageTar'
+	Then, add onboot, onshutdown, and service containers by invoking the function named 'OutputImage'.
+	And, add xxx files by invoking the function named 'filesystem'.
+	Finally, add anything additional for this output type by invoking the function named 'addition'.
+
+
+how to generate linuxkit kernel
+	use alpine as kernel-build
+	add some apk tools, such as automake, bash, tar and etc
+	download linux kernel source and compile it
+	copy kernel output files(bzImage, System.map, vmlinux) to /out
+	download wireguard source and compile it
+	install kernel modules including wireguard mudules
+	tar /tmp/kernel-modules/lib to /out/kernel.tar
+	tar /tmp/kernel-headers/usr to /out/kernel-headers.tar
+	tar /tmp/usr/src to /out/kernel-dev.tar
+	copy /build/perf/perf /out
+	use scratch as image basis, add copy /out to /

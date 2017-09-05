@@ -1,0 +1,17 @@
+#Author: persist
+
+blkio支持两种策略：
+	1 阀值限制
+	2 比例限制
+
+常常采用第二种限制，其核心在于内核的cfq调度算法
+
+cfq:
+	每个进程（线程，linux其实没有线程的概念，通过进程模拟线程）拥有一个cfq_queue
+	每个进程属于一个控制组cfq_group
+	每个group属于一类优先级service tree(RT > BE > IDLE)
+	某个块设备的io调度流程：
+		1 根据优先级高低选中一个service tree
+		2 根据红黑树的key(vdisktime，与运行时间相关)选中一个cfq_queue
+		3 根据扇区位置，再综合deadline选择一个（一组）request
+

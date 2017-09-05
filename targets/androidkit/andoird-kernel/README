@@ -1,0 +1,13 @@
+#Author: persist
+
+需要弄清的问题：
+	androidkit针对的目标场景
+	androidkit侧重点（安全，轻量等）
+
+需要了解的东西：
+	android内核与linux内核区别
+	android系统服务与各自内核模块的关系
+
+需要实现的技术细节：
+	分析android应用特点以及各自需要的系统服务
+	建立好系统服务与需要抽离的内核部分之间的关系

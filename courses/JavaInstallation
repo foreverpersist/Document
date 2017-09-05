@@ -1,0 +1,15 @@
+#Author: persist
+#Abstract: install java on ubuntu
+
+1. download jdk on http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+2. unzip jdk to /usr/java with bash command:
+   > sudo tar -zxvf ~/Downloads/jdk-8u121-linux-x64.tar.gz
+3. set environment variables
+   > sudo vim /etc/profile
+   append:
+       JAVA_HOME=/usr/java/jdk1.8.0_121
+       CLASSPATH=$JAVA_HOME/lib/
+       PATH=$PATH:$JAVA_HOME/bin
+       export PATH JAVA_HOME CLASSPATH
+4. valid changes with bash command
+   > source /etc/profile

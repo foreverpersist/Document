@@ -1,0 +1,48 @@
+#Author: persist
+#Abstract: a new thread pool, actually it is just a thread group
+
+Structure
+	ThreadPool
+		head		queue to hold all reqs
+		lock		used for add or remove reqs in queue
+		sem		used for waitting when removing reqs
+		stopping	control threads
+		map		hold relationship between pid and thread
+
+	ThreadInstance
+		pid		identification
+		request_list	private queue to hold its own reqs
+		lock		used for add or remove reqs in queue
+		sem		used for waiting when preparing to remove reqs
+		wait_times	used for kill itself
+
+API
+	thread_pool_submit_aio
+		insert a req into thread pool queue without lock
+		increase thread pool sem
+		get or create a thread instance with pid attached to req
+		insert a req into thread instance queue with thread instance lock
+		increase thread instance sem
+
+	do_spawn_thread
+		create a new thread and pass thread instance to it as argument
+
+	worker_thread
+		loop: until thread pool stops or error happens
+			inner loop: util a req arrives or wait two many times
+				wait for req with timeout 10000
+			get and remove a req from thread instance queue with thread instance lock
+			handle a req
+			trigger thread pool to execute completion check with thread pool lock
+		send exit signal to thread pool with thread pool lock
+
+	thread_pool_completion_bh
+		restart(tag):
+                        find a element whose start is THREAD_DONE
+                        remove the element
+                        if the element has own compleltion function, it will be invoked, then the element will be released and 'restart' will be executed again;otherwise, the element will be released
+
+	thread_pool_cancel
+		get pid from req
+		get thread instance with pid
+		if elem state and thread instance queue size both are ok, remove req from thread pool queue, reset elem status, and trigger thread pool to executee completion check with thread pool lock

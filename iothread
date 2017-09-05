@@ -1,0 +1,24 @@
+#Author: persist
+#Abstract: how to use iothread in qemu to start multiple threads so that each process in VM can dispatch its own I/O requests in its own specific thread.
+
+API:
+	//return my_iothread->ctx or qemu_get_aio_context
+	qemu_get_current_aio_context(void)
+
+	//my_iothread = opaque, then start loop to run it
+	iothread_run(void *opaque)
+
+	//object is cast to iothread, qemu_thread_join(&iothread->thread), opaque seems useless
+	iothread_stop(Object *object, void *opaque)
+
+	//iothread_stop(obj, NULL)
+	iothread_instance_finalize(Object *obj)
+
+	//qemu_thread_create
+	iothread_complete(UserCreatable *obj, Error **errp)
+
+	iothread_get_id(UserCreatable *obj, Error **errp)
+	iothread_get_aio_context(UserCreatable *obj, Error **errp)
+	query_obe_iothread(UserCreatable *obj, Error **errp)
+	qmp_query_iothreads(UserCreatable *obj, Error **errp)
+	iothread_stop_all(void)

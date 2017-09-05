@@ -1,0 +1,4 @@
+#Author: persist
+
+#use top to find processes with specific command line string
+top -c -p $(pgrep -d',' -f string_to_match_in_cmd_line)

@@ -1,0 +1,41 @@
+#Author: persist
+
+include/blkdev.h: 139
+struct request {
+	//...
+	/* created by persist */
+#ifdef CONFIG_BLK_CGROUP
+	unsigned long long io_end_time_ns; /* when return from hardware */
+#endif
+}
+
+include/blkdev.h: 1677
+static inline void set_io_end_time_ns(struct request *req)
+{
+	preempt_disable();
+	req->io_end_time_ns = sched_clock();
+	preempt_enable();
+}
+
+include/blkdev.h: 1696
+static inline void set_io_end_time_ns(struct request *req) {}
+
+block/cfq-iosched.c: 4310
+static void cfq_completed_request(struct request_queue *q, struct request *rq) 
+{
+	//...
+	/* modified by persist */
+	set_io_end_time_ns(rq);
+}
+
+block/cfq-iosched.c: 103
+struct cfq_queue {
+	//...
+	/* created by persist */
+	unsigned long long io_total_completion_time_ns;
+	floag completion_weight;
+	unsigned long long io_total_arrival_time_ns;
+	float arrival_weight;
+}
+
+...

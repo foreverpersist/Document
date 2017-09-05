@@ -1,0 +1,12 @@
+#Author: persist
+
+memory只对cgroup使用的内存大小进行限制，没有host之上的调度策略
+	每个cgroup维护了一套LRU list(active anon, inactive anon, active file, inactive file, unevict), 父子cgroup的LRU没有交集
+	每个cgroup有两个限制值
+		soft limit: 警告作用，标记需要全局内存回收时优先选中
+		hard limit: 限制作用，不允许超过，否则进行cgroup内OOM
+	开启了use_hierarchy后，子cgroup使用的内存大小也同时计入父cgroup
+	内存的分配主要的伙伴系统负责
+	内存回收有direct reclaim和kswapd两种
+		direct: 全局内存短缺，或cgroup达到hard limit。从root cgroup或某个cgroup开始扫描LRU
+		kswapd: 某个zone剩余内存低于low水位，从root cgroup开始扫描LRU

@@ -1,0 +1,3 @@
+#Author: persist
+
+cpuset可以指定cgroup运行的cpu集和NUMA节点node集

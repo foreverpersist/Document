@@ -1,0 +1,21 @@
+#Author: persist
+#Abstract: install shadowsocks on ubuntu
+
+bash commands:
+> sudo apt-get install python-pip
+> sudo apt-get install python-setuptools m2crypto
+> sudo pip install shadowsocks
+
+configure of shadowsocks client
+file: shadowsocks.json
+    {
+    "server":"12.34.56.78",
+    "server_port":5001,
+    "local_port":1080,
+    "password":"zheshimima",
+    "timeout":600,
+    "method":"aes-256-cfb"
+    }
+
+start client
+sslocal -c shadowsocks.json

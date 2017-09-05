@@ -1,0 +1,323 @@
+Front
+include/uapi/linux/virtio_blk.h: 127
+struct virtio_blk_outhdr {
+        /* VIRTIO_BLK_T* */
+        __virtio32 type;
+        /* io priority. */
+        __virtio32 ioprio;
+        /* Sector (ie. 512 byte offset) */
+        __virtio64 sector;
+        /* guest pid created by persist */
+        __virtio64 pid;
+	/*sync flag created by persist */
+	__virtio64 sync;
+};
+drivers/block/virtio_blk.c: 177
+        /* set guest pid, appended by persist  */
+        vbr->out_hdr.pid = cpu_to_virtio64(vblk->vdev, current->pid);
+	vbr->out_hdr.sync = cpu_to_virtio64(vblk->vdev, op_is_sync(req->cmd_flags));
+	printk("set guest pid: %ld\n", vbr->out_hdr.pid);
+drivers/block/virtio_blk.c: 87
+	printk("set scatterlist[0] vbr->out_hdr, size: %ld, pid: %ld\n", sizeof(vbr->out_hdr), vbr->out_hdr.pid);
+
+Back
+
+include/standard-headers/linux/virtio_blk.h: 125
+struct virtio_blk_outhdr {
+        /* VIRTIO_BLK_T* */
+        __virtio32 type;
+        /* io priority. */
+        __virtio32 ioprio;
+        /* Sector (ie. 512 byte offset) */
+        __virtio64 sector;
+        /* guset pid created by persist */
+        __virtio64 pid;
+	/* sync flag created by persist */
+};
+
+include/qemu/iov.h: 139
+typedef struct QEMUIOVector {
+    struct iovec *iov;
+    int niov;
+    int nalloc;
+    size_t size;
+    /* created py persist */
+    pid_t pid;
+    int sync;
+} QEMUIOVector;
+
+
+hw/block/virtio-blk.c: 471
+
+    size_t size = iov[0].iov_len;
+    size_t real_size;
+
+    if (req->elem.out_num < 1 || req->elem.in_num < 1) {
+        virtio_error(vdev, "virtio-blk missing headers");
+        return -1;
+    }
+
+    real_size = iov_to_buf(iov, out_num, 0, &req->out, size);
+    if (unlikely(iov_to_buf(real_size != sizeof(req->out)))) {
+        req->out.pid = -1;
+        if(unlikely(real_size != (sizeof(req->out)-sizeof(req->out.pid)-sizeof(req->out.sync)))) {
+            virtio_error(vdev, "virtio-blk request outhdr too short");
+            return -1;
+        }
+    }
+
+    iov_discard_front(&iov, &out_num, size);
+
+    if (in_iov[in_num - 1].iov_len < sizeof(struct virtio_blk_inhdr)) {
+        virtio_error(vdev, "virtio-blk request inhdr too short");
+        return -1;
+    }
+
+    /* We always touch the last byte, so just see how big in_iov is.  */
+    req->in_len = iov_size(in_iov, in_num);
+    req->in = (void *)in_iov[in_num - 1].iov_base
+              + in_iov[in_num - 1].iov_len
+              - sizeof(struct virtio_blk_inhdr);
+    iov_discard_back(in_iov, &in_num, sizeof(struct virtio_blk_inhdr));
+
+    type = virtio_ldl_p(VIRTIO_DEVICE(req->dev), &req->out.type);
+
+    pid_t pid = virtio_ldl_p(VIRTIO_DEVICE(req->dev), &req->out.pid);
+    printf("[persist]pid: %d\n", pid);
+    req->qiov.pid = pid;
+
+
+    int sync = virtio_ldl_p(VIRTIO_DEVICE(req->dev), &req->out.sync);
+    req->qiov.sync = sync;
+
+include/qemu/iov.h: 148
+void qemu_iovec_init(QEMUIOVector *qiov, int alloc_hint, pid_t pid);
+void qemu_iovec_init_external(QEMUIOVector *qiov, struct iovec *iov, int niov, pid_t pid);
+
+util/iov.c: 270
+void qemu_iovec_init(QEMUIOVector *qiov, int alloc_hint, pid_t pid)
+{
+    qiov->iov = g_new(struct iovec, alloc_hint);
+    qiov->niov = 0;
+    qiov->nalloc = alloc_hint;
+    qiov->size = 0;
+    qiov->pid = pid;
+}
+
+void qemu_iovec_init_external(QEMUIOVector *qiov, struct iovec *iov, int niov, pid_t pid)
+{
+    int i;
+
+    qiov->iov = iov;
+    qiov->niov = niov;
+    qiov->nalloc = -1;
+    qiov->size = 0;
+    for (i = 0; i < niov; i++)
+        qiov->size += iov[i].iov_len;
+   qiov->pid = pid;
+}
+
+qemu-io-cmds.c:401:5:
+    qemu_iovec_init(qiov, nr_iov, qiov->pid);
+
+block/raw_bsd.c:234:9:
+        qemu_iovec_init(&local_qiov, qiov->niov + 1, qiov->pid);
+
+block/qcow.c:621:17:
+                qemu_iovec_init_external(&hd_qiov, &hd_iov, 1, qiov->pid);
+
+block/qcow.c:645:13:
+            qemu_iovec_init_external(&hd_qiov, &hd_iov, 1, qiov->pid);
+
+block/qcow.c:747:9:
+        qemu_iovec_init_external(&hd_qiov, &hd_iov, 1, qiov->pid);
+
+block/qcow.c:993:5:
+    qemu_iovec_init_external(&hd_qiov, &iov, 1, qiov->pid);
+
+block/vdi.c:594:5:
+    qemu_iovec_init(&local_qiov, qiov->niov, qiov->pid);
+
+block/vdi.c:537:5:
+    qemu_iovec_init(&local_qiov, qiov->niov, qiov->pid);
+
+block/vmdk.c:1365:9:
+        qemu_iovec_init_external(&local_qiov, &iov, 1, qiov->pid);
+
+block/vmdk.c:1367:9:
+        qemu_iovec_init(&local_qiov, qiov->niov, qiov->pid);
+
+block/vmdk.c:1473:5:
+    qemu_iovec_init(&local_qiov, qiov->niov, qiov->pid);
+
+block/bochs.c:244:5:
+
+block/vpc.c:596:5:
+
+block/vpc.c:645:5:
+
+block/qcow2.c:1419:5:
+
+block/qcow2.c:1452:21:
+
+block/qcow2.c:1581:5:
+
+block/qcow2.c:2645:5:
+
+block/qcow2-cluster.c:411:5:
+
+block/qed.c:1466:5:
+
+block/qed.c:1400:5:
+
+block/qed.c:887:5:
+
+block/qed.c:812:5:
+
+block/qed-table.c:67:5:
+
+block/vhdx.c:1091:5:
+
+block/vhdx.c:1225:5:
+
+block/quorum.c:661:9:
+
+block/parallels.c:296:5:
+
+block/parallels.c:337:5:
+
+block/blkverify.c:243:5:
+
+block/block-backend.c:1195:5:
+
+block/block-backend.c:890:5:
+
+block/mirror.c:272:5:
+
+block/commit.c:58:5:
+
+block/io.c:645:5:
+
+block/io.c:678:5:
+
+block/io.c:754:5:
+
+block/io.c:782:5:
+
+block/io.c:965:5:
+
+block/io.c:1083:13:
+
+block/io.c:1142:9:
+
+block/io.c:1153:13:
+
+block/io.c:1284:13:
+
+block/io.c:1375:13:
+
+block/io.c:1428:9:
+
+block/io.c:1546:9:
+
+block/io.c:1556:9:
+
+block/io.c:1588:9:
+
+block/io.c:1599:13:
+
+block/io.c:2015:5:
+
+block/io.c:2040:5:
+
+block/backup.c:134:9:
+
+block/replication.c:262:5:
+
+block/crypto.c:411:5:
+
+block/crypto.c:479:5:
+
+qemu-img.c:3789:9:
+
+dma-helpers.c:224:5:
+
+block/stream.c:53:5:
+
+hw/9pfs/9p.c:1756:5:
+
+hw/9pfs/9p.c:1757:5:
+
+hw/9pfs/9p.c:1805:9:
+
+hw/9pfs/9p.c:2061:5:
+
+hw/block/xen_disk.c:209:9:
+
+hw/ide/core.c:635:5:
+
+hw/ide/core.c:756:5:
+
+hw/ide/core.c:1024:5:
+
+hw/ide/atapi.c:189:5:
+
+hw/ide/atapi.c:443:5:
+
+hw/scsi/scsi-disk.c:136:5:
+
+hw/scsi/scsi-disk.c:177:5:
+
+hw/scsi/scsi-disk.c:1713:9:
+
+hw/scsi/scsi-disk.c:1775:5:
+
+hw/usb/core.c:503:5:
+
+hw/usb/combined-packet.c:161:17:
+
+migration/block.c:312:5:
+
+migration/block.c:544:17:
+
+migration/savevm.c:155:5
+
+hw/block/virtio-blk.c:337:9
+
+hw/block/virtio-blk.c:528:13
+
+hw/block/virtio-blk.c:532:13:
+
+hw/scsi/virtio-scsi.c:52:5:
+
+block/raw-posix.c: 159
+typedef struct RawPosixAIOData {
+    BlockDriverState *bs;
+    int aio_fildes;
+    union {
+        struct iovec *aio_iov;
+        void *aio_ioctl_buf;
+    };
+    int aio_niov;
+    uint64_t aio_nbytes;
+#define aio_ioctl_cmd   aio_nbytes /* for QEMU_AIO_IOCTL */
+    off_t aio_offset;
+    int aio_type;
+    /* created by persist */
+    pid_t aio_pid;
+} RawPosixAIOData;
+
+block/raw-posix.c: 1202
+    if (qiov) {
+        acb->aio_iov = qiov->iov;
+        acb->aio_niov = qiov->niov;
+        acb->aio_pid = qiov->pid;
+        assert(qiov->size == count);
+    }
+
+
+mkdir include/persist
+touch include/persist/hashmap.h
+touch hashmap.c
+
+thread-pool.c

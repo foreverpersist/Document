@@ -1,0 +1,21 @@
+#Author: persist
+#Abstract: how to install and configure mentohust on ubuntu
+
+1. download package mentohust_0.3.4-1_amd64.deb(64 bits machine) on https://code.google.com/archive/p/mentohust/downloads
+2. install mentohust with the package:
+   	> sudo dpkg -i mentohust_0.3.4-1_amd64.deb
+3. /etc/mentohust.conf:
+   	...
+   	StartMode=1
+   	DhcpMode=1
+   	...
+4. create soft link for libnotify
+	32bits machine:
+		sudo ln -s /usr/lib/i386-linux-gnu/libnotify.so.4.0.0 /usr/lib/libnotify.so.1
+	64bits machine:
+		sudo ln -s /usr/lib/x86_64-linux-gnu/libnotify.so.4.0.0 /usr/lib/libnotify.so.1
+
+Note: mentohust error, can not open libnotify
+	> sudo apt-get install libnotify-bin
+	#you can also try the following command
+	> sudo apt-get install libnotify4

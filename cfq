@@ -1,0 +1,29 @@
+#Author: persist
+#Abstract: introduce how cfq works
+
+Structrue:
+thread - ioc(IO Context, each thread has one)
+          |-cfq_ioc(each device in one thread has one)
+          |-cfq_ioc
+          +-cfq_ioc
+
+cfq_ioc
+ |-cfq_group(policy instance on a device shared by multi-threads)
+ | |-blkio_group(policy instance on a device)
+ | +-other
+ |
+ +-cfq_queue
+
+blkio_cgroup(manage blkio_group)
+ |-blkio_group
+ |-blkio_group
+ +-blkio_group
+
+request
+ |-cfq_group *
+ +-cfq_queue *
+
+Thinking:
+cfq_group creates a request queue for each thread
+
+

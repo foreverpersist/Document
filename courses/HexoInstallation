@@ -1,0 +1,16 @@
+#Author: persist
+#Abstract: how to install and configure hexo on ubuntu
+
+1. make sure that nodejs and git have been installed, if not
+   	> sudo apt-get install nodejs
+   	> sudo apt-get install git
+2. install hexo
+   	> sudo npm install hexo-cli -g
+	> sudo npm install hexo --save
+3. init
+   	> hexo init
+4. _config.yml
+   	deploy:
+   	  type: git
+   	  repo: https://github.com/yourname/taozhiheng.github.io.git
+   	  branch: master

@@ -1,0 +1,8 @@
+#Author: persist
+#Abstract: FoxyProxy configure
+
+1. Proxies -> Add New Proxy, 
+   Proxy Settings -> General, set 'Proxy Name'
+                  -> Proxy Details, chose Manual Proxy Configuration and set ip, port, chose SOCKS V5, then OK
+2. Pattern Subsriptions -> Go, set 'Subscription Name', set Subscription URL -- https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt（or http://www.woodbunny.com/gfwlist.txt）, 'Add Proxies' to chose your new proxy, set Refresh Rate, chose Format to AutoProxy, chose Obfuscation to 'Base64'
+3. Select Mode 'Use proxies based on their pre-defined patterns and priorities'

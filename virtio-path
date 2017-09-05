@@ -1,0 +1,71 @@
+#Author: persist
+#Abstract: describe how qemu handle I/O request from fron end to kernel
+
+
+Routine
+
+blk_aio_prwv
+	.
+	.
+	.
+	+-blk_aio_write_entry/blk_aio_read_entry
+		|
+		+-blk_co_pwritev/blk_co_preadv
+			|
+			+-bdrv_co_pwritev/bdrv_co_preadv
+				|
+				+bdrv_aligned_pwritev/bdrv_aligned_preadv
+					|
+					+-bdrv_driver_pwritev/bdrv_driver_preadv
+						|
+						+-bs->bdrv_co_pwritev/bs->bdrv_co_preadv
+							|
+							+-raw_co_pwritev/raw_co_preadv
+								|
+								+-raw_co_prw
+
+
+DataFlow
+
+req, mrb
+v
+blk, mrb
+v
+blk, mrb, start, num_reqs, niov
+v
+blk, offset, qiov, flags, cb, opaque
+v
+
+blk, offset, bytes, qiov, co_entry, flags, cb, opaque
+.
+v
+opaque
+v
+blk, offset, bytes, qiov, flags
+v
+child, offset, bytes, qiov, flags
+v
+bs, req, offset, bytes, align, qiov, flags
+v
+bs, offset, bytes, qiov, flags
+v
+bs, offset, bytes, qiov, type
+
+v
+bs, fd, offset, qiov, count, type
+v
+pool, func[aio_worker], arg[acb]
+.
+v
+arg[aiocb]
+v
+aiocb
+
+key data structure: 
+	qiov
+	  |-struct iovec &iov
+	  |-int niov
+	  |-nalloc
+	  +-size
+source:
+	req->qiov

@@ -1,0 +1,6 @@
+#Author: persist
+
+Each cgroup maintains a per cgroup LRU which has the same structure as
+global VM. When a cgroup goes over its limit, we first try
+to reclaim memory from the cgroup so as to make space for the new
+pages that the cgroup has touched. 

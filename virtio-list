@@ -1,0 +1,40 @@
+#Author: persist
+#Abstract: describe qemu lit usage on thread-pool.c
+
+elem:
+	QTAILQ_ENTRY reqs
+	QLIST_ENTRY all
+
+pool:
+	QLIST_HEAD head
+	QTAILQ_HEAD request_list
+	lock
+
+lifecycle
+
+init:
+	QLIST_INIT head
+	QTAILQ_INIT request_list
+submit:
+	QLIST_INSERT_HEAD head, req, all
+	lock lock
+	QTAILQ_INSERT_TAIL request_list, req, reqs
+	unlock lock
+work:
+	lock lock
+	QTAILQ_EMTPY request_list
+	QTAILQ_FIRSET request_list
+	QTAILQ_REMOVE request_list, req, reqs
+	unlock
+	completion
+cancel:
+	lock lock
+	QTAILQ_REMOVE request_list, elem, reqs
+	completion
+	unlock
+completion:
+	QLIST_FOREACH_SAFE elem, head, all, next
+		QLIST_REMOVE elem, all
+free:
+	assert QLIST_EMPTY head
+	

@@ -1,0 +1,20 @@
+#Author: persist
+
+linuxkit run process
+
+src/cmd/linuxkit/main.go: main
+	Firstly, check arguments.
+	Then, invoke the function named 'run' at src/cmd/run.go.
+
+src/cmd/linuxkit/run.go: run
+	just invoke runXXX (XXX: platform, such as Qemu)
+
+src/cmd/linuxkit/run_qemu.go:  runQemu
+	Firstly, parse arguments and set variables for booting.
+	Then, resolve qemu config.
+	Finally, invoke the function named 'runQemuLocal' or 'runQemuContainer'.
+
+src/cmd/linuxkit/run_qemu.go: runQemuLocal
+	Firstly, create needed qemu disk.
+	Then, construct cmd line arguments.
+	Finally, execute 'qemuCmd.Run()'.

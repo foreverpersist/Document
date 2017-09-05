@@ -1,0 +1,9 @@
+#Author: persist
+#Abstract: install Chinese input method in English Ubuntu14.04
+
+1. install fcitx language support framework. you can search 'fcitx' in Ubuntu Software Center to install 'Flexible Input Method Framework'
+2. switch keyboard input method system to 'fcitx' in System Settings -> Language Support, don't forget to drag '汉语(中国)' to the first item in 'Language for menus and windows'
+3. restart ubuntu system
+4. add Chinese(Pinyin) in Text Entry
+
+5. ???

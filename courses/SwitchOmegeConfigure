@@ -1,0 +1,13 @@
+#Author: persist
+#Abstract: Proxy Switch Omega configure in chrome
+
+1. PROFILES proxy -> Proxy servers, set (default): SOCKS5 127.0.0.1 1080
+2. PROFILES auto switch -> Switch rules -> Rule list rules, set: proxy
+                        -> Rule list Config -> Rule List Format, AutoProxy
+                                            -> Rule List URL, https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+3. click Download Profile Now
+4. Apply changes
+5. switch mode to auto switch
+
+Note: chrome error with socks5 proxy, NET::ERR_CERT_WEAK_SIGNATURE_ALGORITHM
+	> sudo apt-get install libnss3-1d
