@@ -1,0 +1,51 @@
+#Author: persist
+#Abstract: explain what ramdisk.img does
+
+Structure
+.
+├── charger -> /sbin/healthd
+├── data
+├── default.prop
+├── dev
+├── file_contexts
+├── fstab.goldfish
+├── fstab.ranchu
+├── init
+├── init.environ.rc
+├── init.goldfish.rc
+├── init.ranchu.rc
+├── init.rc
+├── init.trace.rc
+├── init.usb.configfs.rc
+├── init.usb.rc
+├── init.zygote32.rc
+├── init.zygote64_32.rc
+├── oem
+├── proc
+├── property_contexts
+├── sbin
+│   ├── adbd
+│   ├── healthd
+│   ├── ueventd -> ../init
+│   └── watchdogd -> ../init
+├── seapp_contexts
+├── selinux_version
+├── sepolicy
+├── service_contexts
+├── sys
+├── system
+├── ueventd.goldfish.rc
+├── ueventd.ranchu.rc
+└── ueventd.rc
+
+Pack
+find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
+
+Unpack
+zcat ../ramdisk.img | cpio -iud
+
+Note:
+file ueventd.android_x86_64.rc is needed?
+
+Key
+

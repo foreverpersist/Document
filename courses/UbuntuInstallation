@@ -18,4 +18,5 @@ automake	a compile tool
 libtool		a tool whose usage is unknown by me
 virtualbox	an opensource hypervisor platform tool
 qemu-system-x86	an opensource hypervisor platform tool
+subl		a great text edition tool
 netease-cloud-music a great music software

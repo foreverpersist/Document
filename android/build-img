@@ -14,3 +14,4 @@ $ mount -t ext4 -o loop example.img /mnt/example
 4. copy files to /mnt/example
 
 5. umount it
+

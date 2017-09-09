@@ -1,0 +1,32 @@
+#Author: persist
+#Abstract: androidkit work plan
+
+Status Table
+0	do nothing
+1	do a little jobs
+2	do almost a half of jobs
+3	do most jobs
+4	finish
+
+Status: 2
+1. understand how to make android x86 iso image
+
+Status: 0
+2. optimize linux kernel inside android
+
+Status: 0
+3. customize image for a specific android app
+	install.img
+	initrd.img
+	ramdisk.img	/root
+	system.img	/system
+	userdata.img 	/data
+
+Status: 0
+4. extract android services to containers(maybe docker containers)
+
+Status: 0
+5. make usable tool for image building
+
+Status: 0
+6. extend to arm and other platforms
