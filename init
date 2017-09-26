@@ -1,44 +1,3 @@
-#Author: persist
-#Abstract: explain what initrd.img does
-
-Structure
-.
-├── android
-├── bin
-│   ├── busybox
-│   ├── ld-linux.so.2
-│   └── lndir
-├── hd
-├── init
-├── iso
-├── lib
-│   ├── ld-linux.so.2 -> /bin/ld-linux.so.2
-│   ├── libcrypt.so.1
-│   ├── libc.so.6
-│   ├── libdl.so.2
-│   ├── libm.so.6
-│   ├── libntfs-3g.so.31
-│   ├── libpthread.so.0
-│   └── librt.so.1
-├── mnt
-├── proc
-├── sbin
-│   └── mount.ntfs-3g
-├── scripts
-│   ├── 00-ver
-│   ├── 0-auto-detect
-│   ├── 1-install
-│   ├── 2-mount
-│   ├── 3-tslib
-│   └── 4-dpi
-├── sfs
-├── sys
-└── tmp
-
-Key
-
-init
-
 #!/bin/busybox sh
 #
 # By Chih-Wei Huang <cwhuang@linux.org.tw>
@@ -263,5 +222,4 @@ while :; do
 	echo
 	debug_shell fatal-err
 done
-
 

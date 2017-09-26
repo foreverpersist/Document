@@ -19,7 +19,7 @@ Structure
 └── xbin
 
 Pack
-make_ext4fs -T file_contexts -l 1024M -a system system.img system/
+/media/disk/work/android-x86/out/host/linux-x86/bin/make_ext4fs -T -1 -S file_contexts -L system -l 1342177280 -a system system.img system system
 mksquashfs system.img system.sfs
 
 Unpack
