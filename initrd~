@@ -115,9 +115,9 @@ while :; do
 	echo -n .
 done
 
-ln -s mnt/$SRC /src
-ln -s android/system /
-ln -s ../system/lib/firmware ../system/lib/modules /lib
+#ln -s mnt/$SRC /src
+#ln -s android/system /
+#ln -s ../system/lib/firmware ../system/lib/modules /lib
 
 # load scripts
 for s in `ls /scripts/* /src/scripts/*`; do
