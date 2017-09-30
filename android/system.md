@@ -29,18 +29,18 @@
 
 # Pack
 
-	``` bash
-	$ make_ext4fs -T -1 -S file_contexts -L system -l 1342177280 -a system system.img system system
+``` bash
+$ make_ext4fs -T -1 -S file_contexts -L system -l 1342177280 -a system system.img system system
 	$ mksquashfs system.img system.sfs
-	```
+```
 
 # Unpack
 
-	``` bash
-	$ unsquashfs system.sfs
-	$ mkdir system
-	$ mount -o loop squashfs-root/system.img system
-	```
+``` bash
+$ unsquashfs system.sfs
+$ mkdir system
+$ mount -o loop squashfs-root/system.img system
+```
 
 # Key
 

@@ -227,9 +227,9 @@ done
 
 ## Build initrd.img
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
+```
 
 # Make ramdisk - /root
 
@@ -238,9 +238,9 @@ done
 
 ## Build ramdisk image ramdisk.img
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
+```
 
 
 # Make system - /system
@@ -249,20 +249,20 @@ done
 
 ### remove all applications in app/
 
-	``` bash
-	$ rm -rf app/*
-	```
+``` bash
+$ rm -rf app/*
+```
 
 ### remove most applications in priv-app
 
 
 ## Build system image system.img
 
-	``` bash
-	$ make_ext4fs -T file_contexts -l 1024M -a system system.img system/
-	$ mksquashfs system.img system.sfs
+``` bash
+$ make_ext4fs -T file_contexts -l 1024M -a system system.img system/
+$ mksquashfs system.img system.sfs
 
-	```
+```
 
 # Make kernel
 
@@ -273,16 +273,16 @@ done
 
 # Build android-x86 image android-x86.iso
 
-	``` bash
-	$ mkisofs -o ../android-x86.iso -r -J -T -V "Android x86 Build" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot  -e boot/grub/efi.img  -no-emul-boot .
-	```
+``` bash
+$ mkisofs -o ../android-x86.iso -r -J -T -V "Android x86 Build" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot  -e boot/grub/efi.img  -no-emul-boot .
+```
 
 
 # Run
 
-	``` bash
-	$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std
-	```
+``` bash
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std
+```
 
 
 # Make Light OS image structure
@@ -317,13 +317,14 @@ done
 ### Merge old initrd.img and ramdisk.img
 	old-initrd is the mountpoint of old initrd, and old-ramdisk is the mountpoint of old ramdisk.img
 
-	``` bash
-	$ cp -r old-ramdisk new-initrd
-	$ cp -r old-initrd/bin new-initrd/
-	$ cp -r old-initrd/lib new-initrd/
-	$ cp -r old-initrd/scripts new-initrd/
-	$ cp -r old-initrd/sbin/* new-initrd/sbin/
-	```
+``` bash
+$ cp -r old-ramdisk new-initrd
+$ cp -r old-initrd/bin new-initrd/
+$ cp -r old-initrd/lib new-initrd/
+$ cp -r old-initrd/scripts new-initrd/
+$ cp -r old-initrd/sbin/* new-initrd/sbin/
+```
+
 ### Create new initrd script rdinit in new-initrd/
 
 ```
@@ -611,20 +612,20 @@ done
 
 	see document initrd
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
+```
 
 ## Run
 
 ### iso
 
-	``` bash
-	$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std -drive file=system.sfs
-	```
+``` bash
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std -drive file=system.sfs
+```
 
 ### initrd+kernel
 
-	``` bash
-	$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -vga std -drive file=system.sfs
-	```
+``` bash
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -vga std -drive file=system.sfs
+```

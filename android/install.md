@@ -51,15 +51,15 @@
 
 # Pack
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../install.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../install.img
+```
 
 # Unpack
 
-	``` bash
-	$ zcat ../install.img | cpio -iud
-	```
+``` bash
+$ zcat ../install.img | cpio -iud
+```
 
 # Key
 

@@ -50,16 +50,16 @@
 
 # Pack
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
+```
 
 
 # Unpack
 
-	``` bash
-	$ zcat ../ramdisk.img | cpio -iud
-	```
+``` bash
+$ zcat ../ramdisk.img | cpio -iud
+```
 
 
 # Key
