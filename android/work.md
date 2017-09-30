@@ -1,5 +1,5 @@
 #Author: persist
-#Abstract: how to implement specific android image based live mode
+#Abstract: explain how to implement specific android image based live mode
 
 # Prepare
 

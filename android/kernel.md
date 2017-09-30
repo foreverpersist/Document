@@ -1,4 +1,4 @@
 #Author: persist
-#Abstract: explain what kernel does
+#Abstract: explain how to custom kernel
 
 

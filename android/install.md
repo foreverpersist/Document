@@ -2,6 +2,7 @@
 #Abstract: explain what install.img does
 
 # Function
+
 	Install android to disk. 
 	>* Partion disk for installation
 	>* Format specific format

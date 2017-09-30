@@ -1,5 +1,5 @@
 #Author: persist
-#Abstract: how to make android x86 iso image with mkisofs
+#Abstract: explain how to make android x86 iso image with mkisofs
 
 # Structure
 

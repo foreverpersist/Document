@@ -1,5 +1,5 @@
 #Author: persist
-#Abstract: how to convert a directory to *.img
+#Abstract: explain how to make a image *.img
 
 # Create image
 
