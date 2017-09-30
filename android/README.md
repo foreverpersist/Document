@@ -17,33 +17,33 @@
 
 ## work.md
 
-	Record main works
+	Record main works.
 
 ## build-img.md
 	
-	Explain how to make a image *.img
+	Explain how to make a image *.img.
 
 ## build-iso.md
 
-	Explain how to make android x86 iso image with mkisofs
+	Explain how to make android x86 iso image with mkisofs.
 
 ## initrd.md
 
-	Explain what initrd.img does
+	Explain what initrd.img does.
 
 ## install.md
 
-	Explain what install.img does
+	Explain what install.img does.
 
 ## kernel.md
 
-	Explain how to custom kernel
+	Explain how to custom kernel.
 
 ## ramdisk.md
 
-	Explain what ramdisk.img does
+	Explain what ramdisk.img does.
 
 ## system.md
 
-	Explain what system.sfs(system.img) does
+	Explain what system.sfs(system.img) does.
 

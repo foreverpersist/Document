@@ -618,6 +618,8 @@ $ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
 
 ## Run
 
+	Mount /system partition from external disk
+
 ### iso
 
 ``` bash
@@ -627,5 +629,15 @@ $ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std
 ### initrd+kernel
 
 ``` bash
-$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -vga std -drive file=system.sfs
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -vga std -drive file=system.sfs 
 ```
+
+## Note
+
+	You can also mount other partitions (/data, /cache, /sdcard) from external disks.
+
+	/data:		-drive file=userdata.img
+	/cache:		-drive file=cache.img
+	/sdcard:	-drive file=sdcard.img
+
+	Drive filename does not matter, you can use any filename you like. Drives are recognized by their volume names, Only "system", "data", "cache", "sdcard" is supportted, any volume name else will be seen as "sdcard".
