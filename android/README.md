@@ -285,7 +285,7 @@ done
 	```
 
 
-# Make Light OS structure
+# Make Light OS image structure
 
 ## Structure
 
