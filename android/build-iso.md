@@ -1,7 +1,9 @@
 #Author: persist
 #Abstract: how to make android x86 iso image with mkisofs
 
-1. prepare
+# Structure
+
+```
 .
 ├── boot
 │   ├── grub
@@ -29,11 +31,33 @@
 ├── ramdisk.img
 ├── system.sfs
 └── TRANS.TBL
+```
 
-2. pack
-$ mkisofs -o myiso.iso -r -J -T -V "Android x86 Build" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot  -e boot/grub/efi.img  -no-emul-boot .
 
-3. run with qemu
-$ qemu-system-x86 -smp2 -m 4096 -enable-kvm -cdrom myiso.iso
+# Pack
 
-Note: check iso image information with tool 'dumpet', usage: dumpet -i myiso.iso
+	```
+	$ mkisofs -o myiso.iso -r -J -T -V "Android x86 Build" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot  -e boot/grub/efi.img  -no-emul-boot .
+	```
+
+
+# Run with qemu
+
+	``` bash
+	$ qemu-system-x86 -smp2 -m 4096 -enable-kvm -cdrom myiso.iso
+	```
+
+
+# Note 
+
+	Check iso image information with tool 'dumpet' or 'file'.
+
+	``` bash
+	$ dumpet -i myiso.iso
+	```
+
+	``` bash
+	$ file myiso.iso
+	```
+
+	Rerun qemu with option '-vga std', vga is a universal display dirver which can support most graphics cards.

@@ -1,7 +1,14 @@
 #Author: persist
 #Abstract: explain what ramdisk.img does
 
-Structure
+# Function
+
+	It is root filesystem of android system.
+
+
+# Structure
+
+```
 .
 ├── charger -> /sbin/healthd
 ├── data
@@ -38,43 +45,47 @@ Structure
 ├── system
 ├── ueventd.android_x86_64.rc
 └── ueventd.rc
+```
 
 
-Pack
-find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
+# Pack
 
-Unpack
-zcat ../ramdisk.img | cpio -iud
-
-Note:
-file ueventd.android_x86_64.rc is needed?
-
-Key
-*.rc
-
-init*.rc
-init.rc
-init.environ.rc
-init.trace.rc
-init.zygote64_32.rc
-init_zygote32.rc
-init.bluetooth.rc
-init.usb.rc
-init.usb.configs.rc
-
-ueventd*.rc
-ueventd.rc
-ueventd.android_x86_64.rc
+	``` bash
+	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
+	```
 
 
-*_contexts
-file_contexts
+# Unpack
 
-property_contexts
-
-seapp_contexts
-
-service_contexts
+	``` bash
+	$ zcat ../ramdisk.img | cpio -iud
+	```
 
 
-sepolicy
+# Key
+
+## *.rc
+
+### init*.rc
+>*init.rc
+>*init.environ.rc
+>*init.trace.rc
+>*init.zygote64_32.rc
+>*init_zygote32.rc
+>*init.bluetooth.rc
+>*init.usb.rc
+>*init.usb.configs.rc
+
+### ueventd*.rc
+>* ueventd.rc
+>* ueventd.android_x86_64.rc
+
+
+### *_contexts
+>* file_contexts
+>* property_contexts
+>* seapp_contexts
+>* service_contexts
+
+
+### sepolicy
