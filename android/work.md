@@ -296,6 +296,11 @@ $ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std
 │   └── grub
 │       ├── efi.img
 │       └── grub.cfg
+├── efi
+│   └── boot
+│       ├── bootia32.efi
+│       ├── BOOTx64.EFI
+│       └── grubx64.efi
 ├── initrd.img
 ├── isolinux
 │   ├── android-x86.png
@@ -393,7 +398,7 @@ check_mount()
 	else
 		dev=$1
 	fi
-	#dev=$1
+	# dev=$1
 	dir=/mnt/dev$dev_index
 	
 	if [ ! -d $dir ]; then
@@ -411,7 +416,7 @@ check_mount()
 		SRC=iso
 	fi
 	
-	#check system.sfs/system.img
+	# check system.sfs/system.img
 	if [ -e $dir/$SRC/system.sfs ]; then
 		[ $blank != 0 ] && blank=0
 		mkdir /sfs
@@ -428,19 +433,19 @@ check_mount()
 		mountpoint -q system || mount --bind $dir system
 	fi
 	
-	#check userdata.img
+	# check userdata.img
 	if [ -e $dir/$SRC/$DATA ]; then
 		[ $blank != 0 ] && blank=0 && remount_rw
 		mount_label $dir/$SRC/$DATA data
 	fi
 	
-	#check cache.img
+	# check cache.img
 	if [ -e $dir/$SRC/$CACHE ]; then
 		[ $blank != 0 ] && blank=0 && remount_rw
 		mount_label $dir/$SRC/$CACHE cache
 	fi
 	
-	#check sdcard.img
+	# check sdcard.img
 	if [ -e $dir/$SRC/$SDCARD ]; then
 		[ $blank != 0 ] && blank=0 && remount_rw
 		mount_label $dir/$SRC/$SDCARD sdcard
@@ -448,7 +453,7 @@ check_mount()
 	
 	if [ $blank != 0 ]; then
 		umount $dir
-		#check initrd.img
+		# check initrd.img
 		if [ -e $dir/$SRC/initrd.img ]; then
 			mount_label $dev sdcard
 		fi
@@ -468,7 +473,7 @@ remount_rw()
 	mount -o remount,rw foo $dir
 }
 
-#usage: mount_label dev label
+# usage: mount_label dev label
 mount_label()
 {
 	mountpoint -q $2 && echo "$2 has been mounted" && return
@@ -495,7 +500,7 @@ debug_shell()
 echo -n Detecting Android-x86...
 
 [ -z "$SRC" -a -n "$BOOT_IMAGE" ] && SRC=`dirname $BOOT_IMAGE`
-#[ -z "$RAMDISK" ] && RAMDISK=ramdisk.img
+# [ -z "$RAMDISK" ] && RAMDISK=ramdisk.img
 [ -z "$DATA" ] && DATA=userdata.img 
 [ -z "$CACHE" ] && CACHE=cache.img
 [ -z "$SDCARD" ] && SDCARD=sdcard.img
@@ -513,39 +518,39 @@ done
 
 mkdir /mnt
 
-#dev_index: mountpoint index under /mnt
+# dev_index: mountpoint index under /mnt
 dev_index=0
 
-#search block devices
+# search block devices
 echo "..."
 blkid > tmp
 while read line
 do
-	#$line is like "/dev/sda: LABEL=labek UUID=uuid TYPE=type"
+	# $line is like "/dev/sda: LABEL=label UUID=uuid TYPE=type"
 	dev=${line%%:*}
 	label=`expr "$line" : '.*LABEL="\([^"]*\)"'`
 
 	case $label in
 		system)
-			#this is a device consist of system.img, mount it to system
+			# this is a device consist of system.img, mount it to system
 			mount_label $dev system
 			;;
 		data)
-			#this is a device consist of userdata.img, mount it to data
+			# this is a device consist of userdata.img, mount it to data
 			mount_label $dev data
 			;;
 		cache)
-			#this is a device consist of cache.img, mount it to cache
+			# this is a device consist of cache.img, mount it to cache
 			mount_label $dev sdcard
 			;;
 		sdcard)
-			#this is a device consist of sdcard.img, mount it to sdcard
+			# this is a device consist of sdcard.img, mount it to sdcard
 			mount_label $dev sdcard
 			;;
 		*)
-			#this is a unknown device, there are many cases
-			#1) system.sfs/system.img [data.img] [cache.img] [sdcard.img] others
-			#2) sdcard.img
+			# this is a unknown device, there are many cases
+			# 1) system.sfs/system.img [data.img] [cache.img] [sdcard.img] others
+			# 2) sdcard.img
 			check_mount $dev
 			;;
 	esac
@@ -580,9 +585,9 @@ done
 
 
 load_modules
-#mount_data
+# mount_data
 mountpoint -q data || mount -t tmpfs tmpfs data
-#mount_sdcard
+# mount_sdcard
 mountpoint -q sdcard || mount -t tmpfs tmpfs sdcard
 setup_tslib
 setup_dpi
