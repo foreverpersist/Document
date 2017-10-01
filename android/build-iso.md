@@ -46,16 +46,49 @@ $ qemu-system-x86 -smp 2 -m 4096 -enable-kvm -vga std android-x86.iso
 
 # Note 
 
-	
-
 	Check iso image information with tool 'dumpet' or 'file'.
 
 ``` bash
 $ dumpet -i android-x86.iso
 ```
 
+	dumpet command's output is like: 
+
+```
+	Validation Entry:
+	Header Indicator: 0x01 (Validation Entry)
+	PlatformId: 0x00 (80x86)
+	ID: ""
+	Checksum: 0x55aa
+	Key bytes: 0x55aa
+Boot Catalog Default Entry:
+	Entry is bootable
+	Boot Media emulation type: no emulation
+	Media load segment: 0x0 (0000:7c00)
+	System type: 0 (0x00)
+	Load Sectors: 4 (0x0004)
+	Load LBA: 43 (0x0000002b)
+Section Header Entry:
+	Header Indicator: 0x91 (Final Section Header Entry)
+	PlatformId: 0xef (EFI)
+	Section Entries: 1
+	ID: ""
+Boot Catalog Section Entry:
+	Entry is bootable
+	Boot Media emulation type: no emulation
+	Media load address: 0 (0x0000)
+	System type: 0 (0x00)
+	Load Sectors: 6144 (0x1800)
+	Load LBA: 55 (0x00000037)
+```
+
 ``` bash
 $ file android-x86.iso
 ```
 
+	file command's output is like: 
+
+```
+android-x86.iso: x86 boot sector
+```
 	Rerun qemu with option '-vga std', vga is a universal display dirver which can support most graphics cards.

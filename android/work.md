@@ -281,7 +281,7 @@ $ mkisofs -o ../android-x86.iso -r -J -T -V "Android x86 Build" -b isolinux/isol
 # Run
 
 ``` bash
-$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm   -vga std android-x86.iso
 ```
 
 
@@ -628,13 +628,13 @@ $ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
 ### iso
 
 ``` bash
-$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -cdrom android-x86.iso  -vga std -drive file=system.sfs
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -vga std android-x86.iso -drive file=system.sfs
 ```
 
 ### initrd+kernel
 
 ``` bash
-$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -vga std -drive file=system.sfs 
+$ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -vga std -kernel kernel -initrd initrd.img -append "rdinit=/rdinit root=/dev/ram0 quiet" -drive file=system.sfs 
 ```
 
 ## Note
