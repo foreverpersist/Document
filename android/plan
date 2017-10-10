@@ -8,25 +8,27 @@ Status Table
 3	do most jobs
 4	finish
 
-Status: 3
-1. understand how to make android x86 iso image
+Status: 4
+1. make clear how to make android x86 iso image
 
 Status: 0
 2. optimize linux kernel inside android
 
-Status: 0
+Status: 1
 3. customize image for a specific android app
-	install.img
-	initrd.img
-	ramdisk.img	/root
-	system.img	/system
-	userdata.img 	/data
+	install.img		[remove]
+	initrd.img	ramdisk	[merge]
+	ramdisk.img	/root	[merge]
+	system.img	/system	[share]
 
 Status: 0
-4. extract android services to containers(maybe docker containers)
+4. add containered and runc to android
 
 Status: 0
-5. make usable tool for image building
+5. extract android services to containers (maybe docker containers)
 
 Status: 0
-6. extend to arm and other platforms
+6. make usable tool for image building
+
+Status: 0
+7. extend it to arm and other platforms

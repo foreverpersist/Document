@@ -48,16 +48,16 @@
 
 # Pack
 
-	``` bash
-	$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
-	```
+``` bash
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
+```
 
 
 # Unpack
 
-	``` bash
-	$ zcat ../initrd.img | cpio -iud
-	```
+``` bash
+$ zcat ../initrd.img | cpio -iud
+```
 
 # Key
 
