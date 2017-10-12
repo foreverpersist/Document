@@ -1,0 +1,32 @@
+#Author: persist
+#Abstract: how to install docker on ubuntu
+
+# get the newest docker installation package
+
+``` bash
+$ wget -qO- https://get.docker.com/ | sh
+```
+
+
+# check whether docker has been successfully installed
+
+``` bash
+$ sudo docker run hello-world
+```
+
+# Note
+	see https://github.com/widuu/chinese_docker/blob/master/installation/ubuntu.md  to learn more details
+
+## start docker daemon
+
+``` bash
+$ sudo docker daemon
+```
+
+``` bash
+$ sudo dockerd
+```
+
+``` bash
+$ sudo service docker start
+```

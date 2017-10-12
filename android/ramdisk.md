@@ -67,14 +67,16 @@ $ zcat ../ramdisk.img | cpio -iud
 ## *.rc
 
 ### init*.rc
->*init.rc
->*init.environ.rc
->*init.trace.rc
->*init.zygote64_32.rc
->*init_zygote32.rc
->*init.bluetooth.rc
->*init.usb.rc
->*init.usb.configs.rc
+>* init.rc
+>* init.environ.rc
+>* init.trace.rc
+>* init.zygote64_32.rc
+>* init_zygote32.rc
+>* init.android_x86_64.rc
+>* init.superuser.rc
+>* init.bluetooth.rc
+>* init.usb.rc
+>* init.usb.configs.rc
 
 ### ueventd*.rc
 >* ueventd.rc
