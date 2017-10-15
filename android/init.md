@@ -36,8 +36,7 @@
 | dhcpcd_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
 | iprenew_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
 | dhcpcd_eth0		| main		| true		| true		| /system/bin/dhcpcd			|
-| iprenew_wlan0		| main		| true		| true		
-| /system/bin/dhcpcd			|
+| iprenew_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
 | dhcpcd_bt-pan		| main		| true		| true		| /system/bin/dhcpcd			|
 | nativebridge		| main		| true		| true		| /system/bin/enable_nativebridge	|
 | btattache		| main		| true		| true		| /system/bin/btattach			|
