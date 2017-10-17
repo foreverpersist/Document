@@ -31,7 +31,7 @@
 
 ``` bash
 $ make_ext4fs -T -1 -S file_contexts -L system -l 1342177280 -a system system.img system system
-	$ mksquashfs system.img system.sfs
+$ mksquashfs system.img system.sfs
 ```
 
 # Unpack
