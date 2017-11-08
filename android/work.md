@@ -255,6 +255,56 @@ $ rm -rf app/*
 
 ### remove most applications in priv-app
 
+### append containerd into bin/
+
+	Extract bin/{containerd, container-shim, ctr, service}. Extract localtime in etc/ and create directory etc whose directory tree is like following structure.
+```
+etc
+├── containerd
+│   └── config.toml
+├── init.d
+└── localtime
+```
+	Then edit etc/containerd/config.toml.
+```
+state = "/run/containerd"
+root = "/var/lib/containerd"
+snapshotter = "io.containerd.snapshotter.v1.overlayfs"
+differ = "io.containerd.differ.v1.base-diff"
+subreaper = false
+
+[grpc]
+  address = "/run/containerd/containerd.sock"
+  uid = 0
+  gid = 0
+
+[debug]
+  address = "/run/containerd/debug.sock"
+  level = "info"
+
+[metrics]
+  address = ""
+
+[plugins.linux]
+  runtime = "runc"
+  shim_debug = true
+
+```
+
+	Copy bin/* and etc/* to system/
+
+``` bash
+$ cp bin/* system/bin/
+$ cp -r etc/* system/etc/
+```
+
+### append runc into bin/
+
+	Download runc.amd64 from https://github.com/opencontainers/runc/releases. Then copy it to bin/ in system.img
+
+``` bash
+$ cp runc.amd64 system/bin/runc
+```
 
 ## Build system image system.img
 
