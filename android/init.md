@@ -18,7 +18,7 @@
 | surfaceflinger	| core		|		|		| /system/bin/surfacefinger		|
 | bootanim		| core		| true		| true		| /system/bin/bootanimation		|
 | debuggerd		| main		|		|		| /system/bin/debuggerd			|
-| debuggerd		| main		|		|		| /system/bin/debuggerd64		|
+| debuggerd64		| main		|		|		| /system/bin/debuggerd64		|
 | ril-daemon		| main		|		|		| /system/bin/rild			|
 | drm			| main		|		|		| /system/bin/drmserver			|
 | media			| main		|		|		| /system/bin/media			|
@@ -36,7 +36,7 @@
 | dhcpcd_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
 | iprenew_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
 | dhcpcd_eth0		| main		| true		| true		| /system/bin/dhcpcd			|
-| iprenew_wlan0		| main		| true		| true		| /system/bin/dhcpcd			|
+| iprenew_eth0		| main		| true		| true		| /system/bin/dhcpcd			|
 | dhcpcd_bt-pan		| main		| true		| true		| /system/bin/dhcpcd			|
 | nativebridge		| main		| true		| true		| /system/bin/enable_nativebridge	|
 | btattache		| main		| true		| true		| /system/bin/btattach			|
