@@ -5,7 +5,7 @@
 
 # **Stage 0**
 
-	*Remove useless install menu entries, and set timeout 0*
+	Remove useless install menu entries, and set timeout 0
 
 ------------------------------------------
 
@@ -72,7 +72,7 @@ menuentry 'Android-x86 6.0-r3 Live' --class android-x86 {
 
 # **Stage 1**
 
-	*Simplify init shell script to run android on live directly*
+	Simplify init shell script to run android on live directly
 
 ------------------------------------------
 
@@ -241,7 +241,7 @@ done
 
 # **Stage 2**
 
-	*Support light OS image structure*
+	Support light OS image structure
 
 ------------------------------------------
 
@@ -618,7 +618,7 @@ $ qemu-system-x86_64 -smp 2 -m 4096 -enable-kvm -vga std -kernel kernel -initrd 
 
 # **Stage 3**
 
-	*Simplify system image to remove useless apks, append `containerd` and `runc`*
+	Simplify system image to remove useless apks, append `containerd` and `runc`
 
 ------------------------------------------
 
@@ -692,7 +692,7 @@ $ cp runc.amd64 system/bin/runc
 
 # **Stage 4**
 
-	*Build runtime environment for runc*
+	Build runtime environment for runc
 
 ------------------------------------------
 
@@ -736,7 +736,10 @@ $ cp runc.amd64 system/bin/runc
 
 # Support pivot_root
 
-	pivot_root, which runc uses normally will not work on a ramfs or tmpfs root filesystem. We can work around this by two means.
+	pivot_root, which runc uses normally will not work on a ramfs or tmpfs root filesystem. 
+	We can work around this by two means: 
+>* swith_root
+>* --no-pivot
 
 ## Create new tmpfs as rootfs, then use switch_root
 
@@ -757,8 +760,6 @@ $ find . | cpio --quiet -H newc -o | gzip -9 -n > ../ramdisk.img
 
 ```
 $ cp ramdisk.img initrd/
-$ cd initrd/
-$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
 ```
 
 ### Edit init shell script in initrd
@@ -1057,6 +1058,24 @@ while :; do
 done
 ```
 
+### Pack initrd
+
+```
+$ cd initrd/
+$ find . | cpio --quiet -H newc -o | gzip -9 -n > ../initrd.img
+```
+
+### Remove kernel option: rdinit=/rdinit
+
+#### iso
+
+	Remove kernel option: rdinit=/rdinit in isolinux/isolinux.cfg 
+
+#### initrd+kernel
+
+	Just run qemu without option: -append
+
+
 ## Run runc with option: --no-pivot
 
 ``` bash
@@ -1075,6 +1094,6 @@ CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
 
 # **Stage 5**
 
-	*Optimize android boot time*
+	Optimize android boot time
 
 ------------------------------------------
