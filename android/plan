@@ -14,14 +14,14 @@ Status: 4
 Status: 0
 2. optimize linux kernel inside android
 
-Status: 1
+Status: 3
 3. customize image for a specific android app
 	install.img		[remove]
-	initrd.img	ramdisk	[merge]
+	initrd.img	ramdisk	[merge, then split]
 	ramdisk.img	/root	[merge]
 	system.img	/system	[share]
 
-Status: 0
+Status: 4
 4. add containered and runc to android
 
 Status: 0

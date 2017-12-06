@@ -32,8 +32,8 @@
 # Pack
 
 ``` bash
-$ mkisofs -o android-x86.iso -r -J -T -V "Android x86 Build" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot  -e boot/grub/efi.img  -no-emul-boot .
-$ isohybrid android-x86.iso
+$ genisoimage -vJURT -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorit0-alt-boot -e boot/grub/efi.img -no-emul-boot -input-charset utf-8 -V "Android-x86 LiveCD" -o android-x86.iso iso/
+$ isohybrid --uefi android-x86.iso
 ```
 
 
