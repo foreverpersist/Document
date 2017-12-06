@@ -21,12 +21,12 @@
 | debuggerd		| main		|		|		| /system/bin/debuggerd64		|
 | ril-daemon		| main		|		|		| /system/bin/rild			|
 | drm			| main		|		|		| /system/bin/drmserver			|
-| media			| main		|		|		| /system/bin/media			|
+| media			| main		|		|		| /system/bin/mediaserver		|
 | installd		| main		|		|		| /system/bin/installd			|
 | flash_recovery	| main		| 		| true		| /system/bin/install-recovery.sh	|
 | racoon		| main		| true		| true		| /system/bin/racoon			|
 | mtpd			| main		| true		| true		| /system/bin/mtpd			|
-| keystore		| main		|		|		| /system/bin/kerstore			|
+| keystore		| main		|		|		| /system/bin/keystore			|
 | dumpstate		| main		| true		| true		| /system/bin/dumpstate			|
 | mdnsd			| main		| true		| true		| /system/bin/mdnsd			|
 | uncrypt		| main		| true		| true		| /system/bin/uncrypt			|
