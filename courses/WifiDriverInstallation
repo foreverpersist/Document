@@ -1,0 +1,133 @@
+#Author: persist
+#Abstract: how to install wifi driver for 148f:7601 Ralink Technology, Corp
+
+# Check Wifi Chip ID
+
+``` bash
+$ lsusb
+Bus ...
+Bus 003 Device 003: ID 148f:7601 Ralink Technology, Corp. 
+Bus ...
+```
+	If your wifi chip ID is 148f:7601, then it can be supported by the driver mt7601u.
+
+# Get Source Code
+
+```
+$ git clone https://github.com/muratdemirtas/MT7601u.git
+```
+
+# Compile & Install
+
+## Setup Your SSID and Password
+
+``` bash
+$ cd MT7601u
+$ vim etc/Wireless/RT2870AP/RT2870AP.dat
+```
+
+	Find line SSID=* to set your SSID, find line WPAPSK=* to set your password.
+	Your can also do it after installation by editing file /etc/Wireless/RT2870AP/RT2870AP.dat.
+
+## Compile The Driver
+
+``` bash
+$ cp -v /lib/modules/$(uname -r)/build/Module.symvers src/os/linux
+$ make
+```
+
+## Install The Driver
+
+```
+$ sudo make install
+```
+
+## Clean The Source
+
+``` bash
+$ rm -rvf src/os/linux/Module.symvers
+```
+	You can ignore this step.
+
+# Run
+
+## Load The Kernel Modules of The Driver
+
+``` bash
+$ sudo modprobe rtutil7601Uap
+$ sudo modprobe mt7601Uap
+$ sudo modprobe rtnet7601Uap
+```
+	If some ERRORs happened, please unload module mt7601Usta first by typing: 
+``` bash
+$ sudo ifconfig ra0 down
+$ sudo modprobe -r mt7601Usta
+```
+
+## Set DHCP Configure
+
+	Make sure isc-dhcp-server has been installed on your computer. If not, you can install it by typing the command like: 
+``` bash
+$ sudo apt-get install isc-dhcp-server
+```
+
+	Edit /etc/dhcp/dhcpcd.conf
+``` bash
+$ sudo vim /etc/dhcp/dhcpcd.conf
+```
+	Add '#' in the beginning of the following lines:
+```
+#option domain-name "example.org";
+#option domain-name-servers ns1.example.org, ns2.example.org; 
+```
+
+	Remove '#' in the beginning of the following line:
+```
+authoritative
+```
+
+	Add the following lines:
+```
+subnet 192.168.42.0 netmask 255.255.255.0 {
+  range 192.168.42.10 192.168.42.50; 
+  option broadcast-address 192.168.42.255; 
+  option routers 192.168.42.1;
+  default-lease-time 600;
+  max-lease-time 7200; 
+  option domain-name "local"; 
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+}
+```
+
+## Set IP
+
+``` bash
+$ sudo ifconfig ra0 up
+$ sudo ifconfig ra0 192.168.42.1
+$ sudo dhcpd ra0
+```
+
+## Set Iptables
+
+``` bash
+$ sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward "
+$ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+$ sudo iptables -A FORWARD -i eth0 -o ra0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+$ sudo iptables -A FORWARD -i ra0 -o eth0 -j ACCEPT
+$ sudo iptables -t nat -S
+```
+
+## Restart/Start DHCP Server
+
+``` bash
+$ sudo serivice isc-dhcp-server restart
+```
+
+# Change The Wifi Configure: SSID or Password
+
+	Edit /etc/Wireless/RT2870AP/RT2870AP.dat, then restart ra0.
+``` bash
+$ sudo vim /etc/Wireless/RT2870AP/RT2870AP.dat
+$ sudo ifconfig ra0 down
+$ sudo ifconfig ra0 up
+```
