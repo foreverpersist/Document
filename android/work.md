@@ -855,10 +855,10 @@ check_mount()
 		[ $blank != 0 ] && blank=0
 		mkdir /sfs
 		mount -o loop,noatime $dir/$SRC/system.sfs /sfs
-		mount_label /sfs/system.img system
+		mount_label ro /sfs/system.img system
 	elif [ -e $dir/$SRC/system.img ]; then
 		[ $blank != 0 ] && blank=0 && remount_rw
-		mount_label $dir/$SRC/system.img system
+		mount_label ro $dir/$SRC/system.img system
 	elif [ -d $dir/$SRC/system ]; then
 		[ $blank != 0 ] && blank=0 && remount_rw
 		mountpoint -q system || mount --bind $dir/$SRC/system system
@@ -910,15 +910,18 @@ remount_rw()
 	mount -o remount,rw foo $dir
 }
 
-# usage: mount_label dev label
+# usage: mount_label rw dev label
 mount_label()
 {
-	mountpoint -q $2 && echo "$2 has been mounted" && return
-	if [ ! -e $2 ]
+	LABEL=${!#}
+	mountpoint -q $LABEL && echo "$LABEL has been mounted" && return
+	if [ ! -e $LABEL ]
 	then
-		mkdir $2
+		mkdir $LABEL
 	fi
-	mount -o loop,noatime $1 $2
+	SP=" "
+	[ "$1" = "ro" -o "$1" = "rw" ] && SP=,
+	mount -o loop,noatime$SP$@
 }
 
 debug_shell()
@@ -977,7 +980,7 @@ do
 	case $label in
 		system)
 			# this is a device consist of system.img, mount it to system
-			mount_label $dev system
+			mount_label ro $dev system
 			;;
 		data)
 			# this is a device consist of userdata.img, mount it to data
@@ -985,7 +988,7 @@ do
 			;;
 		cache)
 			# this is a device consist of cache.img, mount it to cache
-			mount_label $dev sdcard
+			mount_label $dev cache
 			;;
 		sdcard)
 			# this is a device consist of sdcard.img, mount it to sdcard
