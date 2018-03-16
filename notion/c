@@ -1,0 +1,87 @@
+# C
+
+## GCC
+
+### Preprocess
+
+``` bash
+$ gcc -o test.i -E test.c
+```
+
+### Compile
+
+``` bash
+$ gcc -o test.s -S test.i
+	
+```
+
+### Assemble
+
+``` bash
+$ gcc -o test.o -c test.s
+```
+
+### Link
+
+``` bash
+$ gcc -o test test.o
+```
+
+### Use libraries
+
+	Compile and assemble
+``` bash
+$ gcc -o test.o -c -I $INCLUDE_PATH test.c
+```
+
+	Link with dynamic libraries
+``` bash
+$ gcc -o test -L $LIB_PATH -l$LIB_NAME
+```
+	Link with static libraries
+``` bash
+$ gcc -o test -L $LIB_PATH -static -l$LIB_NAME
+```
+
+### The sequence to search libraries
+
+	Static libraries
+> * -L $PATH
+> * $LIBRARY_PATH
+> * /lib:/usr/lib:/usr/local/lib
+
+	Dynamic libraries
+> * the paths specified on compilation
+> * $LD_LIBRARY_PATH
+> * the paths set by /etc/ld.so.conf
+> * /lib:/usr/lib:/usr/local/lib
+
+## Grammar
+
+### Basic Data Type
+
+
+> * char	1
+> * short	2
+> * int		4
+> * long	4
+> * long long	8
+> * float	4
+> * double	8
+> * long double	16
+
+### sizeof
+
+> * Byte-Alignment (which can be set to one of 1, 2, 4, 8, 16), makes sure that the start address of each member in a struct is multiple its size so that it can be easily found and accessed.
+> * The real Byte-Alignment size is: the minimum of the Byte-Alignment size set when compiling and the max size of the members in a struct.
+> * Real Size = Byte-Alignment size * N = Last member offset + Last member size + Append size
+> * The inner struct should be expanded when calculating the Byte-Alignment size, not when calculating the real size.
+> * sizeof will be replaced with a constant value when compling, if a function invokation is used as a argument, the function won't be executed. 
+
+> * 字节对齐 (可设置, 取值1, 2, 4, 8 ,16), 保证每个结构成员起始地址都是其大小的整数倍以便于寻址访问.
+> * 结构体实际采用的字节对齐大小为: 编译设置的字节对齐大小与结构最大成员的大小中的较小者
+> * 每个成员的偏移 = 字节对齐大小 * K
+> * 实际大小 = 字节对齐大小 * N = 最末成员偏移+最末成员大小+对齐填充大小
+> * 计算字节对齐大小时,展开嵌套结构看待; 计算实际大小时,不展开
+> * sizeof在编译期被替换为常量,若参数为函数调用,则不会执行函数
+
