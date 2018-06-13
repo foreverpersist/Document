@@ -79,4 +79,20 @@ while(1)
 
 ``` 
 
-#
+# Redirect standard input/output/error
+
+## freopen
+
+```
+freopen("file1", "r", stdin);
+freopen("file2", "w", stdout);
+freopen("file3", "w", stderr);
+```
+
+## dup2
+
+```
+dup2(fd1, STDIN_FILENO);
+dup2(fd2, STDOUT_FILENO);
+dup3(fd3, STDERR_FILENO);
+```
