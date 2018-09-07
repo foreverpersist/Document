@@ -23,10 +23,10 @@ scanf("%[^\n]\n", str_line);
 char *src = "abc;def ghi:jkl";
 char *delim = ":; "
 
-sub_str = token(str, delim);
+sub_str = strtok(str, delim);
 printf("%s\n", sub_str);
 
-while((sub_str = token(NULL, delim)) != NULL)
+while((sub_str = strtok(NULL, delim)) != NULL)
 {
     printf("%s\n", sub_str);
 }
